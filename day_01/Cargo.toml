@@ -1,0 +1,8 @@
+[package]
+name = "day_01"
+version = "0.1.0"
+authors = ["Michael Kubicki <contact@michael-kubicki.de>"]
+edition = "2018"
+
+[dependencies]
+structopt = "0.3.7"
