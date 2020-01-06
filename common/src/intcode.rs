@@ -15,6 +15,7 @@ pub struct Computer {
     pointer: Option<usize>,
     ///Commands for Computer
     commands: HashMap<usize, Box<dyn Command>>,
+    print_commands: bool,
 }
 
 #[derive(Debug, Copy, Clone, Hash)]
@@ -49,6 +50,7 @@ impl Computer {
             program: vec![99],
             pointer: None,
             commands,
+            print_commands: false,
         }
     }
 
@@ -109,6 +111,10 @@ impl Computer {
         self.program.clone()
     }
 
+    pub fn set_command_print(&mut self, value: bool) {
+        self.print_commands = value;
+    }
+
     pub fn step(&mut self) -> ComputerStatus {
         //check if computer can still run
         let ptr = match self.pointer {
@@ -129,16 +135,30 @@ impl Computer {
             Ok(value) => value,
             Err(err) => panic!(err),
         };
+
+        if self.print_commands {
+            println!("{}: ", self.commands[&intcode].get_command_name());
+            let ptr1 = self.program[ptr + 1] as usize;
+            let ptr2 = self.program[ptr + 2] as usize;
+            let ptr3 = self.program[ptr + 3] as usize;
+            println!("\tAddr: r{} and r{} to r{}", ptr1, ptr2, ptr3);
+            println!("\tValue: {} and {} to r{}", self.program[ptr1], self.program[ptr2], self.program[ptr3]);
+        }
+
         for change in changes_to_apply {
             match self.set_value(change.position, change.value) {
                 Ok(_) => {}
                 Err(err) => panic!(err),
             }
+
+            if self.print_commands {
+                println!("\tResult: {}", change.value);
+            }
         }
 
         //increment ptr
         let ptr = ptr + 4;
-        return match self.program[ptr] {
+        match self.program[ptr] {
             99 => {
                 self.pointer = None;
                 ComputerStatus::Complete
@@ -147,7 +167,7 @@ impl Computer {
                 self.pointer = Some(ptr);
                 ComputerStatus::Running
             }
-        };
+        }
     }
 
     pub fn iter(&mut self) -> Iter {

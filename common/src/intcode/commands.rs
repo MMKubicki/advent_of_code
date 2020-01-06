@@ -10,6 +10,7 @@ pub struct Change {
 
 pub trait Command {
     fn get_intcode(&self) -> usize;
+    fn get_command_name(&self) -> &'static str;
     fn apply(&self, computer: &Computer) -> Result<Vec<Change>, CommandError>;
 }
 
@@ -25,6 +26,10 @@ where
 {
     fn get_intcode(&self) -> usize {
         T::get_intcode(self)
+    }
+
+    fn get_command_name(&self) -> &'static str {
+        T::get_command_name(self)
     }
 
     fn apply(&self, computer: &Computer) -> Result<Vec<Change>, CommandError> {

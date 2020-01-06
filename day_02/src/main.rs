@@ -62,6 +62,8 @@ fn main() {
         }
     };
 
+    computer.set_command_print(opt.memory);
+
     let mut memory_prints = Vec::new();
 
     loop {
