@@ -8,7 +8,7 @@ use std::fs;
 use std::io::Read;
 
 fn main() {
-    let opt: Opt = Opt::from_args();
+    let opt = Opt::from_args();
 
     //Open file
     let mut input_file = match fs::File::open(opt.input.clone()) {
@@ -41,7 +41,7 @@ fn main() {
         .map(|l| l.parse::<Module>())
         .partition(Result::is_ok);
 
-    if errors.len() > 0 {
+    if !errors.is_empty() {
         eprintln!("Errors parsing text to numbers");
         //TODO: Display errors
         return;

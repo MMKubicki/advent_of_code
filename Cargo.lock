@@ -37,6 +37,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "common"
+version = "0.1.0"
+dependencies = [
+ "structopt 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "day_01"
 version = "0.1.0"
 dependencies = [
@@ -46,6 +53,10 @@ dependencies = [
 [[package]]
 name = "day_02"
 version = "0.1.0"
+dependencies = [
+ "common 0.1.0",
+ "structopt 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "heck"
